@@ -29,7 +29,7 @@ class TextDifferenceFinder
 		puts "\nThe #{second_file} when compared to #{first_file} has:\n"
 		num = 0
 		first_file_contents.each do |line_text|
-			differences = line_text.split - second_file_contents[num].split
+			differences = line_text.split - second_file_contents[num].to_s.split # using to_s because if a line doesnt exist the array returns nil, and can't call split.
 			num         += 1
 
 			unless differences.empty?
@@ -44,7 +44,7 @@ class TextDifferenceFinder
 		puts "The #{first_file} when compared to #{second_file} has:\n"
 		num = 0
 		second_file_contents.each do |line_text|
-			differences = line_text.split - first_file_contents[num].split
+			differences = line_text.split - first_file_contents[num].to_s.split  # subtract the target line of the document with the same line of the other document. If there are remains, then different words exist
 			num         += 1
 
 			unless differences.empty?
@@ -59,7 +59,7 @@ class TextDifferenceFinder
 
 	def open_file_and_get_contents file_name
 		text = File.open(file_name).read
-		text.each_line do |line|  # Push contents to the appropriate array
+		text.each_line do |line|  # Push contents to the appropriate array. Every array value represents a line
 			self.first_file_contents << "#{line}".gsub(".","") if file_name == first_file
 			self.second_file_contents << "#{line}".gsub(".", "") if file_name == second_file
 		end
